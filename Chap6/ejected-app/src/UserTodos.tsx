@@ -6,9 +6,10 @@ interface UserTodosProps {
 
 const UserTodos: FC<UserTodosProps> = ({ username }) => {
   const [todos, setTodos] = useState<Array<JSX.Element>>();
-
+  // eslint-disable-next-line
   const setUsersTodos = async () => {
     console.log("inside real UserTodos.setUsersTodos");
+    try {
     const usersResponse = await fetch(
       "https://jsonplaceholder.typicode.com/users"
     );
@@ -32,6 +33,8 @@ const UserTodos: FC<UserTodosProps> = ({ username }) => {
         setTodos(todoList);
         console.log("user todos", usersTodos);
       }
+    }} catch (e) {
+      console.error(e);
     }
   };
 
@@ -39,7 +42,7 @@ const UserTodos: FC<UserTodosProps> = ({ username }) => {
     if (username) {
       setUsersTodos();
     }
-  }, [username]);
+  }, [username, setUsersTodos]);
 
   return <ul style={{ marginTop: "1rem", listStyleType: "none" }}>{todos}</ul>;
 };
